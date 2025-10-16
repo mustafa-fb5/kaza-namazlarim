@@ -1,30 +1,47 @@
-name: build
-env:
-    SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-    SUPABASE_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
-  run: |
-    echo "Supabase URL: $SUPABASE_URL"
-    npm run build
+name: Build and Upload APK
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
-jobs:
-  Explore-GitHub-Actions:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v5
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
-      - name: Upload APK
-  uses: actions/upload-artifact@v3
-  with:
-    name: app-release-apk
-    path: build/app/outputs/flutter-apk/app-release.apk
 
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+
+    steps:
+      # 1️⃣ Depoyu klonla
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      # 2️⃣ Flutter kurulumunu yap
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.3'  # kendi versiyonuna göre düzenleyebilirsin
+
+      # 3️⃣ Bağımlılıkları al
+      - name: Get dependencies
+        run: flutter pub get
+
+      # 4️⃣ Build işlemini çalıştır
+      - name: Build release APK
+        run: flutter build apk --release
+
+      # 5️⃣ Build klasöründeki dosyaları listele (kontrol amaçlı)
+      - name: List build outputs
+        run: ls -R build/app/outputs
+
+      # 6️⃣ Üretilen APK'yı Artifact olarak yükle
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+      # 7️⃣ Log bilgileri (opsiyonel)
+      - name: Show Supabase info
+        run: |
+          echo "Supabase URL: $SUPABASE_URL"
+          echo "Build completed successfully ✅"
