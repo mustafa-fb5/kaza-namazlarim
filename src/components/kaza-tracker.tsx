@@ -51,7 +51,7 @@ export function KazaTracker() {
           Her vakit için kalan kaza sayını gir, kıldıkça azalt.
         </p>
 
-        <Card className="mt-5 flex-row items-center justify-around gap-0 rounded-2xl bg-white/[0.06] px-2 py-3.5 ring-border backdrop-blur-2xl sm:mt-7 sm:rounded-3xl sm:py-5">
+        <Card className="mt-5 flex-row items-center justify-around gap-0 rounded-2xl border border-white/10 bg-[#091536] px-2 py-3.5 ring-0 sm:mt-7 sm:rounded-3xl sm:py-5">
           <div className="flex flex-1 flex-col gap-0.5 sm:gap-1">
             <span className="text-[10px] tracking-[0.12em] text-muted-foreground uppercase sm:text-xs">Toplam Kalan</span>
             <span id="total-count" className="text-2xl font-bold tracking-tight tabular-nums sm:text-[34px]">

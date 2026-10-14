@@ -49,11 +49,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`dark ${outfit.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col overflow-x-hidden">
-        <div className="aurora" aria-hidden="true">
-          <span className="b1" />
-          <span className="b2" />
-          <span className="b3" />
-        </div>
         <AuthProvider>
           {children}
         </AuthProvider>

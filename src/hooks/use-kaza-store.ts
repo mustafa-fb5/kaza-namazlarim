@@ -94,14 +94,17 @@ export function useKazaStore() {
     return () => unsub();
   }, [user]);
 
-  // Store değiştiğinde localStorage ve Firestore'a kaydet
+  // Store değiştiğinde localStorage'a anında, Firestore'a debounce ile kaydet
   useEffect(() => {
     if (!ready) return;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
 
     if (user && !isSyncingFromRemote.current) {
-      const userDocRef = doc(db, "users", user.uid);
-      setDoc(userDocRef, store, { merge: true }).catch(console.error);
+      const timer = setTimeout(() => {
+        const userDocRef = doc(db, "users", user.uid);
+        setDoc(userDocRef, store, { merge: true }).catch(console.error);
+      }, 600);
+      return () => clearTimeout(timer);
     }
   }, [store, ready, user]);
 

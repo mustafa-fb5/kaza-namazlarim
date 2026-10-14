@@ -80,9 +80,8 @@ export function PrayerCounter({ prayer, value, onStep, onSet }: Props) {
       id={`card-${prayer.id}`}
       style={{ "--accent": prayer.accent } as React.CSSProperties}
       className={cn(
-        "group relative gap-0 rounded-3xl py-0 ring-border sm:rounded-[28px]",
-        "bg-linear-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-2xl backdrop-saturate-150",
-        "shadow-[0_20px_50px_-20px_rgba(0,10,40,0.8),inset_0_1px_0_rgba(255,255,255,0.08)]"
+        "group relative gap-0 rounded-2xl border border-white/10 py-0 sm:rounded-3xl",
+        "bg-[#091536]"
       )}
     >
       <div
